@@ -9,7 +9,7 @@ namespace EvalAppCore.CFT_specific
     {
     }
 
-    enum Services
+    public enum Services
     {
         Consult,
         EvalSupp,
