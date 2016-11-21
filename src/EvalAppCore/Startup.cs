@@ -9,6 +9,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using EvalAppCore.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNet.Authentication.MicrosoftAccount;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace EvalAppCore
 {
@@ -35,11 +37,16 @@ namespace EvalAppCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connection = @"Server=(localdb)\mssqllocaldb;Database=EvalAppCoreDB;Trusted_Connection=True;";
-            services.AddDbContext<CFTDbContext>(options => options.UseSqlServer(connection));
-            // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
+            //var connection = @"Server=(localdb)\mssqllocaldb;Database=EvalAppCoreDB;Trusted_Connection=True;";
+            //services.AddDbContext<CFTDbContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<CFTDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("EvalAppCoreDB")));
 
+                //authentication
+
+            // Add framework services.
+            //services.AddApplicationInsightsTelemetry(Configuration);
+            //services.AddIdentity<User>
+            //services.AddIdentity<ApplicationUser>
 
             services.AddMvc();
         }
@@ -65,6 +72,11 @@ namespace EvalAppCore
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseStaticFiles();
+
+            app.UseIdentity();
+
+            app.UseMicrosoftAccountAuthentication
+
 
             app.UseMvc(routes =>
             {
